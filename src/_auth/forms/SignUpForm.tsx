@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { FiCommand } from 'react-icons/fi';
 
+import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -19,10 +19,23 @@ import { Input } from '@/components/ui/input';
 import DarkModeToggle from '@/components/DarkModeToggle';
 
 import { SignUpValidation } from '@/lib/validation';
-import { createUserAccount } from '@/lib/appwrite/api';
+import {
+  useCreateUserAccount,
+  useSignInAccount,
+} from '@/lib/react-query/queriesAndMutations';
+
+import { useUserContext } from '@/context/AuthContext';
 
 const SignUpForm = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
+  const navigate = useNavigate();
+
+  const { mutateAsync: createUserAccount, isPending: isCreatingUser } =
+    useCreateUserAccount();
+  const { mutateAsync: signInAccount, isPending: isSigningIn } =
+    useSignInAccount();
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof SignUpValidation>>({
     resolver: zodResolver(SignUpValidation),
@@ -37,7 +50,31 @@ const SignUpForm = () => {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof SignUpValidation>) {
     const newUser = await createUserAccount(values);
-    console.log(newUser);
+
+    if (!newUser) {
+      return toast({
+        title: 'Sign Up Failed. Please try again.',
+      });
+    }
+
+    const session = await signInAccount({
+      email: values.email,
+      password: values.password,
+    });
+
+    if (!session) {
+      return toast({ title: 'Sign In Failed. Please try again.' });
+    }
+
+    const isLoggedIn = await checkAuthUser();
+
+    if (isLoggedIn) {
+      form.reset();
+
+      navigate('/');
+    } else {
+      return toast({ title: 'Sign Up Failed. Please try again.' });
+    }
   }
 
   return (
@@ -135,7 +172,7 @@ const SignUpForm = () => {
             )}
           />
           <Button type='submit' className='shad-button_primary'>
-            {isLoading ? (
+            {isCreatingUser || isSigningIn || isUserLoading ? (
               <div className='flex-center gap-2'>
                 <FiCommand className='loading-icon flex-center w-full' />{' '}
                 Loading...
