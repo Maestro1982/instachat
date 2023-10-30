@@ -314,7 +314,7 @@
 
   /* Topbar */
   .topbar {
-    @apply sticky top-0 z-50 md:hidden bg-dark-2 w-full;
+    @apply sticky top-0 z-50 md:hidden bg-slate-200 dark:bg-dark-2 w-full;
   }
 
   /* User card */
