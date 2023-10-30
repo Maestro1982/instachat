@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { FiCommand } from 'react-icons/fi';
@@ -18,7 +19,7 @@ import { Input } from '@/components/ui/input';
 import DarkModeToggle from '@/components/DarkModeToggle';
 
 import { SignUpValidation } from '@/lib/validation';
-import { z } from 'zod';
+import { createUserAccount } from '@/lib/appwrite/api';
 
 const SignUpForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -34,16 +35,15 @@ const SignUpForm = () => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof SignUpValidation>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof SignUpValidation>) {
+    const newUser = await createUserAccount(values);
+    console.log(newUser);
   }
 
   return (
     <Form {...form}>
       <div className='sm:w-420 flex-center flex-col'>
-        <div className='flex items-center justify-center mb-2'>
+        <div className='flex items-center justify-center mb-2 gap-3'>
           <img
             src='/assets/images/black.svg'
             alt='logo'
@@ -51,7 +51,7 @@ const SignUpForm = () => {
             height={35}
             className='dark:filter dark:invert'
           />
-          <span className='text-2xl md:text-3xl ml-1 font-semibold dark:filter dark:text-white'>
+          <span className='text-2xl md:text-3xl font-semibold dark:filter dark:text-white'>
             InstaChat
           </span>
         </div>
