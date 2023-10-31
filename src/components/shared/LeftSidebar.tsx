@@ -32,11 +32,11 @@ const LeftSidebar = () => {
           <img
             src='/assets/images/black.svg'
             alt='logo'
-            width={35}
-            height={35}
+            width={30}
+            height={30}
             className='dark:filter dark:invert'
           />
-          <span className='text-2xl md:text-3xl font-semibold dark:filter dark:text-white'>
+          <span className='text-xl md:text-2xl font-semibold dark:filter dark:text-white'>
             InstaChat
           </span>
           <DarkModeToggle />
@@ -61,7 +61,7 @@ const LeftSidebar = () => {
               <li
                 key={link.label}
                 className={`leftsidebar-link group ${
-                  isActive && 'bg-indigo-300 dark:bg-primary-500'
+                  isActive && 'bg-indigo-200 dark:bg-primary-500'
                 }`}
               >
                 <NavLink
