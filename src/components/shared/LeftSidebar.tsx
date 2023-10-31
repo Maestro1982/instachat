@@ -61,7 +61,7 @@ const LeftSidebar = () => {
               <li
                 key={link.label}
                 className={`leftsidebar-link group ${
-                  isActive && 'bg-indigo-200 dark:bg-primary-500'
+                  isActive && 'bg-indigo-300 dark:bg-primary-500'
                 }`}
               >
                 <NavLink
