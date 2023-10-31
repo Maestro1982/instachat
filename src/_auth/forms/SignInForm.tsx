@@ -16,8 +16,6 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-import DarkModeToggle from '@/components/DarkModeToggle';
-
 import { SignInValidation } from '@/lib/validation';
 import { useSignInAccount } from '@/lib/react-query/queriesAndMutations';
 
@@ -76,7 +74,6 @@ const SignInForm = () => {
             InstaChat
           </span>
         </div>
-        <DarkModeToggle />
         <h2 className='h3-bold md:h2-bold dark:filter dark:text-white pt-5'>
           Sign in to your account
         </h2>

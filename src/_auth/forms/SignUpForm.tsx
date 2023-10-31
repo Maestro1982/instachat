@@ -16,8 +16,6 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-import DarkModeToggle from '@/components/DarkModeToggle';
-
 import { SignUpValidation } from '@/lib/validation';
 import {
   useCreateUserAccount,
@@ -92,7 +90,6 @@ const SignUpForm = () => {
             InstaChat
           </span>
         </div>
-        <DarkModeToggle />
         <h2 className='h3-bold md:h2-bold dark:filter dark:text-white pt-5'>
           Create a new account
         </h2>
