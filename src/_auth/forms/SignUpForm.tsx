@@ -2,7 +2,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { FiCommand } from 'react-icons/fi';
 
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
@@ -15,6 +14,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import Loader from '@/components/shared/Loader';
 
 import { SignUpValidation } from '@/lib/validation';
 import {
@@ -170,10 +170,7 @@ const SignUpForm = () => {
           />
           <Button type='submit' className='shad-button_primary'>
             {isCreatingUser || isSigningIn || isUserLoading ? (
-              <div className='flex-center gap-2'>
-                <FiCommand className='loading-icon flex-center w-full' />{' '}
-                Loading...
-              </div>
+              <Loader />
             ) : (
               'Sign Up'
             )}

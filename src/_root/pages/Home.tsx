@@ -4,6 +4,7 @@ import PostCard from '@/components/shared/PostCard';
 
 import { usegetRecentPosts } from '@/lib/react-query/queriesAndMutations';
 import { Models } from 'appwrite';
+import Loader from '@/components/shared/Loader';
 
 const Home = () => {
   const {
@@ -17,13 +18,11 @@ const Home = () => {
         <div className='home-posts'>
           <h2 className='h3-bold md:h2-bold text-left w-full'>Home Feed</h2>
           {isPostLoading && !posts ? (
-            <div className='flex-center gap-2'>
-              <FiCommand className='loading-icon flex-center w-full' />
-            </div>
+            <Loader />
           ) : (
             <ul className='flex flex-col flex-1 gap-9 w-full'>
               {posts?.documents.map((post: Models.Document) => (
-                <PostCard post={post} />
+                <PostCard post={post} key={post.caption} />
               ))}
             </ul>
           )}
