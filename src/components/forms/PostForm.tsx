@@ -161,7 +161,11 @@ const PostForm = ({ post, action }: PostFormProps) => {
           )}
         />
         <div className='flex gap-4 items-center justify-end'>
-          <Button variant='destructive' type='button'>
+          <Button
+            variant='destructive'
+            type='button'
+            onClick={() => navigate(-1)}
+          >
             Cancel
           </Button>
           <Button
